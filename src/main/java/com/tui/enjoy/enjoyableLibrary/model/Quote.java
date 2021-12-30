@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Quote {
 
   @Id
+  @Field("_id")
   private String id;
 
   @Field("quoteText")
