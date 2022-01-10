@@ -2,6 +2,7 @@ package com.tui.enjoy.enjoyableLibrary.controller;
 
 import com.tui.enjoy.enjoyableLibrary.model.Quote;
 import com.tui.enjoy.enjoyableLibrary.repository.QuoteRepository;
+import com.tui.enjoy.enjoyableLibrary.service.QuoteService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,22 @@ public class QuoteController {
   @Autowired
   private QuoteRepository quoteRepository;
 
+  @Autowired
+  private QuoteService quoteService;
+
+  @GetMapping("/cache/{id}")
+  public ResponseEntity<Quote> getCache(@PathVariable final String id) {
+    try {
+      final Quote quotesResult = quoteService.getAll(id);
+
+      return new ResponseEntity<>(quotesResult, HttpStatus.OK);
+    } catch (final Exception e) {
+      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
   @GetMapping("/all")
-  public ResponseEntity<List<Quote>> getAllTutorials() {
+  public ResponseEntity<List<Quote>> getAll() {
     try {
       final List<Quote> quotesResult = quoteRepository.findAll();
 
